@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="../../adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="../../adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="../../adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<link rel="stylesheet" href="../../adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 
 <x-admin_layout>
 
@@ -12,13 +13,6 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>Products</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Layout</a></li>
-                            <li class="breadcrumb-item active">Fixed Layout</li>
-                        </ol>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -33,7 +27,7 @@
                             <div class="card-header">
                                 <button type="button" class="btn btn-primary openModalButton" data-toggle="modal"
                                     data-target="#modal-add-product">Add
-                                    Products</button>
+                                    Product</button>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -51,7 +45,8 @@
                                     <tbody>
                                         @unless (count($products) == 0)
                                             @foreach ($products as $product)
-                                                <tr onclick="window.location.href='/product/{{$product['id']}}'" style="cursor:pointer;">
+                                                <tr onclick="window.location.href='/product/{{ $product['id'] }}'"
+                                                    style="cursor:pointer;">
                                                     <td> {{ $product->supplier['Company Name'] }} </td>
                                                     <td> {{ $product['code'] }} </td>
                                                     <td> {{ $product['name'] }} </td>
@@ -106,26 +101,26 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="companyName">Supplier</label>
-                            <select name="supplier" class="form-control" id="companyName" placeholder="Supplier">
+                            <select name="supplier" class="form-control" id="companyName" placeholder="Supplier" required>
                                 <option value="">Select Supplier</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Product Sample Image</label>
+                            <label for="formFile" class="form-label">Product Sample Image (Optional)</label>
                             <input name="image" class="form-control" type="file" id="formFile">
                         </div>
                         <div class="form-group">
                             <label for="acronym">Product Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Product Name">
+                            <input type="text" name="name" class="form-control" placeholder="Product Name" required>
                         </div>
                         <div class="form-group">
                             <label for="acronym">Product Description</label>
-                            <textarea type="text" name="description" class="form-control" placeholder="Product Description" rows="3"></textarea>
+                            <textarea type="text" name="description" class="form-control" placeholder="Product Description" rows="3" required></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="unit">Product Unit</label>
-                            <select name="unit" class="form-control" placeholder="Unit">
+                            <select name="unit" class="form-control" placeholder="Unit" required>
                                 <option value="">Select Unit</option>
                                 <option value="1">pack</option>
                                 <option value="2">piece</option>
@@ -135,13 +130,13 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Suggested Retail Price</label>
-                            <input type="text" name="srp" class="form-control" id="address"
-                                placeholder="Suggested Retail Price">
+                            <input type="text" name="srp" class="form-control"
+                                placeholder="Suggested Retail Price" required>
                         </div>
                         <div class="form-group">
-                            <label for="address">Selling Price</label>
-                            <input type="text" name="price" class="form-control" id="address"
-                                placeholder="Selling Price">
+                            <label for="address">Product Appreciation (0-100)</label>
+                            <input type="number" name="appreiation" class="form-control"
+                                placeholder="Product Appreciation" min="0" max="100" required>
                         </div>
                     </div>
 
@@ -213,4 +208,70 @@
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+
+    document.getElementById('add-qualification').addEventListener('click', function () {
+            var qualificationRows = document.querySelector('.qualification-input-rows');
+            var inputCount = qualificationRows.children.length;
+
+            var newRow = document.createElement('div');
+            newRow.className = 'qualification-input-row';
+
+            var inputField = document.createElement('input');
+            inputField.type = 'text';
+            inputField.className = 'qualification-input';
+            inputField.name = 'QualificationList[' + inputCount + ']';
+            newRow.appendChild(inputField);
+
+            var removeButton = document.createElement('button');
+            removeButton.className = 'remove-button';
+            removeButton.textContent = 'Remove';
+            removeButton.addEventListener('click', function () {
+                var rowToRemove = this.parentNode;
+                rowToRemove.parentNode.removeChild(rowToRemove);
+            });
+            newRow.appendChild(removeButton);
+
+            qualificationRows.appendChild(newRow);
+
+            if (inputCount === 0) {
+                var firstRow = qualificationRows.children[0];
+                var firstRemoveButton = firstRow.querySelector('.remove-button');
+                firstRemoveButton.style.display = 'inline-block';
+            }
+        });
 </script>
+<!-- SweetAlert2 -->
+<script src="../../adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
+@if (session('message'))
+    <script>
+        $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('message') }}'
+            });
+        });
+    </script>
+@elseif (session('error'))
+<script>
+    $(document).ready(function() {
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: null
+        });
+
+        Toast.fire({
+            icon: 'error',
+            title: '{!! session('error') !!}'
+        });
+    });
+</script>
+@endif

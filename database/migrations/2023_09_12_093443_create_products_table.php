@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('unit', ['pack', 'piece', 'bottle', 'box']);
             $table->integer('qty')->default(0);
             $table->integer('srp');
+            $table->integer('appreciation');
             $table->integer('price');
             $table->dateTime('restock')->nullable();
         });

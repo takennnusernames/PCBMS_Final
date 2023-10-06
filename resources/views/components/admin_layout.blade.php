@@ -60,7 +60,7 @@
           <li class="nav-item">
             <a href="/suppliers" class="nav-link {{ request()->is('suppliers*') ? 'active' : '' }}">
               {{-- <i class="nav-icon fas fa-th"></i> --}}
-              <i class="nav-icon fas fa-thin fa-truck-field"></i>
+              <i class="nav-icon fa fa-truck"></i>
               <p>
                 Suppliers
                 <span class="right badge badge-danger">New</span>
@@ -77,71 +77,35 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/employees" class="nav-link {{ request()->is('employees*') ? 'active' : '' }}">
-              <i class="nav-icon fas fa-copy"></i>
+            <a href="#" class="nav-link {{ request()->is('employees*') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-user"></i>
               <p>
                 Employees
-                <i class="fas fa-angle-left right"></i>
+                <i class="fas fa-angle-right right"></i>
                 <span class="badge badge-info right">6</span>
               </p>
             </a>
-            {{-- <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../layout/top-nav.html" class="nav-link">
+                <a href="/add_employee" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation</p>
+                  <p>Add New Employees</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../layout/top-nav-sidebar.html" class="nav-link">
+                <a href="/employees" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation + Sidebar</p>
+                  <p>List All Employees</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../layout/boxed.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Boxed</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/fixed-sidebar.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/fixed-sidebar-custom.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar <small>+ Custom Area</small></p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/fixed-topnav.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Navbar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/fixed-footer.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Footer</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../layout/collapsed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Collapsed Sidebar</p>
-                </a>
-              </li>
-            </ul> --}}
+            </ul>
           </li>
           <li class="nav-item">
             <a href="/sales" class="nav-link {{ request()->is('sales*') ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                 Sales
-                <i class="right fas fa-angle-left"></i>
+                <i class="right fas fa-angle-right"></i>
               </p>
             </a>
             {{-- <ul class="nav nav-treeview">
@@ -173,10 +137,10 @@
           </li>
           <li class="nav-item">
             <a href="/logs" class="nav-link {{ request()->is('logs*') ? 'active' : '' }}">
-              <i class="nav-icon fas fa-tree"></i>
+              <i class="nav-icon fa fa-clock"></i>
               <p>
                 Logs
-                <i class="fas fa-angle-left right"></i>
+                <i class="fas fa-angle-right right"></i>
               </p>
             </a>
             {{-- <ul class="nav nav-treeview">

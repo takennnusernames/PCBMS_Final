@@ -134,7 +134,7 @@
                             <div class="form-group">
                                 <label for="companyName">Company Name</label>
                                 <input type="text" name="companyName" class="form-control" id="companyName"
-                                    placeholder="Company Name">
+                                    placeholder="Company Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="acronym">Company Acronym (Leave blank if not applicable)</label>
@@ -144,22 +144,22 @@
                             <div class="form-group">
                                 <label for="address">Company Address</label>
                                 <input type="text" name="address" class="form-control" id="address"
-                                    placeholder="Company Address">
+                                    placeholder="Company Address" required>
                             </div>
                             <div class="form-group">
                                 <label for="contactPerson">Contact Person</label>
                                 <input type="text" name="contactPerson" class="form-control" id="contactPerson"
-                                    placeholder="Contact Person">
+                                    placeholder="Contact Person" required>
                             </div>
                             <div class="form-group">
                                 <label for="contactNumber">Contact Number</label>
                                 <input type="text" name="contactNumber" class="form-control" id="contactNumber"
-                                    placeholder="Contact Number">
+                                    placeholder="Contact Number" required maxlength="13" minlength="11">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email Address</label>
                                 <input type="email" name="email" class="form-control" id="email"
-                                    placeholder="Email Address">
+                                    placeholder="Email Address" required>
                             </div>
                         </div>
 
@@ -192,7 +192,7 @@
                             <div class="form-group">
                                 <label for="companyName">Company Name</label>
                                 <input type="text" name="companyName" class="form-control" id="editCompanyName"
-                                    placeholder="Company Name">
+                                    placeholder="Company Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="acronym">Company Acronym (Leave blank if not applicable)</label>
@@ -202,27 +202,27 @@
                             <div class="form-group">
                                 <label for="address">Company Address</label>
                                 <input type="text" name="address" class="form-control" id="editAddress"
-                                    placeholder="Company Address">
+                                    placeholder="Company Address" required>
                             </div>
                             <div class="form-group">
                                 <label for="contactPerson">Contact Person</label>
                                 <input type="text" name="contactPerson" class="form-control"
-                                    id="editContactPerson" placeholder="Contact Person">
+                                    id="editContactPerson" placeholder="Contact Person" required>
                             </div>
                             <div class="form-group">
                                 <label for="contactNumber">Contact Number</label>
                                 <input type="text" name="contactNumber" class="form-control"
-                                    id="editContactNumber" placeholder="Contact Number">
+                                    id="editContactNumber" placeholder="Contact Number" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email Address</label>
                                 <input type="email" name="email" class="form-control" id="editEmail"
-                                    placeholder="Email Address">
+                                    placeholder="Email Address" required>
                             </div>
                         </div>
 
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default btn-close">Close</button>
+                            <button type="button" class="btn btn-default close">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
                     </form>
@@ -333,4 +333,20 @@
             });
         });
     </script>
+@elseif (session('error'))
+<script>
+    $(document).ready(function() {
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+        Toast.fire({
+            icon: 'error',
+            title: '{!! session('error') !!}'
+        });
+    });
+</script>
 @endif
