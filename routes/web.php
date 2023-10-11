@@ -40,6 +40,10 @@ Route::delete('delete_employee/{id}', [EmployeeController::class, 'deleteEmploye
 
 Route::post('/add_product', [ProductController::class, 'add_product']);
 
+Route::get('/edit_product_view/{id}', [ProductController::class, 'editProductView']);
+
+Route::post('/edit_product', [ProductController::class, 'editProduct']);
+
 Route::get('/fetch-employee/{id}', [EmployeeController::class, 'fetchEmployee']);
 
 Route::get('/fetch-data/{id}', [SupplierController::class, 'fetchData']);
@@ -54,6 +58,10 @@ Route::delete('/delete_supplier/{id}', [SupplierController::class, 'delete_suppl
 
 Route::get('/sales', function () {
     return view('admin_pages/sales');
+});
+
+Route::get('/pos', function(){
+    return view('point_of_sales/pos');
 });
 
 Route::get('/logs', function () {

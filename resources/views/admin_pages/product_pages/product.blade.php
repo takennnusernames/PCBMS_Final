@@ -45,38 +45,83 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <h3 class="my-3 text-uppercase">{{ $product->name }}</h3>
-                            <p class="text-capitalize">{{ $product->supplier['Company Name'] }} </p>
+                            <p class="text-capitalize">{{ $product->description }} </p>
 
                             <hr>
-                            <div class="bg-green py-2 px-3 mt-4">
-                                <h2 class="mb-0">
-                                    <strong>Description:</strong> {{ $product->description }}
-                                </h2>
-                            </div>
-
-                            <div class="bg-gray py-2 px-3 mt-4">
-                                <h2 class="mb-0">
-                                    <strong>Current Stock:</strong> {{ $product->qty }} {{ $product->unit }}/s
-                                </h2>
-                            </div>
-                            <div class="bg-gray py-2 px-3 mt-4">
-                                <h2 class="mb-0">
-                                    @if ($product->restock)
-                                        <strong>Latest Restock:</strong> {{ $product->restock }}
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>Product Code:</strong>
+                                        <br>
+                                        {{ $product->code }}
+                                    </div>
+                                    <div class="col">
+                                        <strong>Supplier:</strong>
+                                        <br>
+                                        {{$product->Supplier['Company Name']}}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>Current Stock:</strong> 
+                                        <br>
+                                        {{ $product->qty }} {{ $product->unit }}/s
+                                    </div>
+                                    <div class="col">
+                                        @if ($product->restock)
+                                        <strong>Latest Restock:</strong> 
+                                        <br>
+                                        {{ $product->restock }}
                                     @else
-                                        <strong>Latest Restock:</strong> Product is still new
+                                        <strong>Latest Restock:</strong> 
+                                        <br>
+                                        Product is still new
                                     @endif
-                                </h2>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col">
+                                        <strong>SRP:</strong>
+                                        <br>
+                                        {{$product->srp}}
+                                    </div>
+                                    <div class="col">
+                                        <strong>Appreciation:</strong>
+                                        <br>
+                                        {{$product->appreciation}}%
+                                    </div>
+                                    <div class="col">
+                                        <strong>Selling Price:</strong>
+                                        <br>
+                                        ₱{{$product->price}} per {{ $product->unit }}
+                                    </div>
+                                </div>
                             </div>
-
-
-                            <div class="bg-gray py-2 px-3 mt-4">
-                                <h2 class="mb-0">
-                                    <strong>Price:</strong> ₱{{ $product->price }}
-                                </h2>
+                            <hr>
+                            <div class="d-flex">
+                                
+                                <a href="/edit_product_view/{{ $product['id'] }}">
+                                <button type="button"
+                                    class="btn btn-info btn-sm mx-1"
+                                    >
+                                    <i class="fas fa-pencil-alt"></i>
+                                        Edit
+                                </button></a>
+                                <button type="button"
+                                    class="btn btn-primary btn-sm mx-1 deleteButton"
+                                    data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                    data-id="{{ $product['id'] }}">
+                                    <i class="fas fa-cart-plus"></i>
+                                    Restock
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm openModalButton"
+                                    data-id="{{ $product['id'] }}">
+                                    <i class="fas fa-trash"></i>
+                                    Delete
+                                </button>
                             </div>
-
-                            <button>Restock</button>
                         </div>
                     </div>
                 </div>

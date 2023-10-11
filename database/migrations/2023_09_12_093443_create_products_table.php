@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('supplier_id')->constrained()->onDelete('cascade');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->string('name');
             $table->longText('description');
             $table->longText('image');
@@ -23,8 +23,8 @@ return new class extends Migration
             $table->integer('qty')->default(0);
             $table->integer('srp');
             $table->integer('appreciation');
-            $table->integer('price');
-            $table->dateTime('restock')->nullable();
+            $table->float('price');
+            $table->date('restock')->nullable();
         });
     }
 

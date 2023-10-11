@@ -336,17 +336,12 @@
 @elseif (session('error'))
 <script>
     $(document).ready(function() {
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
-
-        Toast.fire({
-            icon: 'error',
-            title: '{!! session('error') !!}'
-        });
+      $(document).Toasts('create', {
+        class: 'bg-danger',
+        title: 'ERROR',
+        subtitle: 'Failed to add data',
+        body: '{!! session('error') !!}'
+      })
     });
 </script>
 @endif

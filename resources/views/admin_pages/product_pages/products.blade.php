@@ -40,13 +40,13 @@
                                             <th>Stock Quantity</th>
                                             <th>SRP</th>
                                             <th>Date of latest restock</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @unless (count($products) == 0)
                                             @foreach ($products as $product)
-                                                <tr onclick="window.location.href='/product/{{ $product['id'] }}'"
-                                                    style="cursor:pointer;">
+                                                <tr>
                                                     <td> {{ $product->supplier['Company Name'] }} </td>
                                                     <td> {{ $product['code'] }} </td>
                                                     <td> {{ $product['name'] }} </td>
@@ -59,7 +59,23 @@
                                                             Not yet stocked
                                                         @endif
                                                     </td>
-
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <a href="/product/{{ $product['id'] }}">
+                                                                <button type="button" class="btn btn-info btn-sm mx-1">
+                                                                    <i class="fas fa-eye"></i>
+                                                                    Open
+                                                                </button>
+                                                            </a>
+                                                            <button type="button"
+                                                                class="btn btn-danger btn-sm mx-1 deleteButton"
+                                                                data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                                                data-id="{{ $product['id'] }}">
+                                                                <i class="fas fa-trash"></i>
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @else
@@ -135,7 +151,7 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Product Appreciation (0-100)</label>
-                            <input type="number" name="appreiation" class="form-control"
+                            <input type="number" name="appreciation" class="form-control"
                                 placeholder="Product Appreciation" min="0" max="100" required>
                         </div>
                     </div>
@@ -151,6 +167,35 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this supplier?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form method="POST" id="deleteForm" action="">
+                        @csrf
+                        @method('DELETE') <!-- This is needed to indicate a DELETE request -->
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 <script>
     $(document).ready(function() {
@@ -182,10 +227,6 @@
     });
 </script>
 
-<script src="../../adminlte/plugins/jquery/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & adminlte/Plugins -->
 <script src="../../adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -208,40 +249,10 @@
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-
-    document.getElementById('add-qualification').addEventListener('click', function () {
-            var qualificationRows = document.querySelector('.qualification-input-rows');
-            var inputCount = qualificationRows.children.length;
-
-            var newRow = document.createElement('div');
-            newRow.className = 'qualification-input-row';
-
-            var inputField = document.createElement('input');
-            inputField.type = 'text';
-            inputField.className = 'qualification-input';
-            inputField.name = 'QualificationList[' + inputCount + ']';
-            newRow.appendChild(inputField);
-
-            var removeButton = document.createElement('button');
-            removeButton.className = 'remove-button';
-            removeButton.textContent = 'Remove';
-            removeButton.addEventListener('click', function () {
-                var rowToRemove = this.parentNode;
-                rowToRemove.parentNode.removeChild(rowToRemove);
-            });
-            newRow.appendChild(removeButton);
-
-            qualificationRows.appendChild(newRow);
-
-            if (inputCount === 0) {
-                var firstRow = qualificationRows.children[0];
-                var firstRemoveButton = firstRow.querySelector('.remove-button');
-                firstRemoveButton.style.display = 'inline-block';
-            }
-        });
 </script>
 <!-- SweetAlert2 -->
 <script src="../../adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @if (session('message'))
     <script>
         $(document).ready(function() {
@@ -261,17 +272,12 @@
 @elseif (session('error'))
 <script>
     $(document).ready(function() {
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: null
-        });
-
-        Toast.fire({
-            icon: 'error',
-            title: '{!! session('error') !!}'
-        });
+      $(document).Toasts('create', {
+        class: 'bg-danger',
+        title: 'ERROR',
+        subtitle: 'Failed to add data',
+        body: '{!! session('error') !!}'
+      })
     });
 </script>
 @endif

@@ -35,15 +35,16 @@ class SupplierController extends Controller
             'Contact Person' => 'required',
             'Contact Number' => ['required', 'regex:/^(?:\+639\d{9}|09\d{9})$/'],
             'Email Address' => 'required|email',
+        ], [
+            'Company Name.unique' => 'The Company Name is already registered. Please check the list of Suppliers',
         ]);
         
         
 
         if ($validator->fails()) {
             // Validation failed, handle the error
-            $errorMessage = 'Failed in adding data';
             $validationErrors = $validator->errors()->all();
-            $combinedErrorMessage = $errorMessage . '<br>' . implode('<br>', $validationErrors);
+            $combinedErrorMessage = implode('<br>', $validationErrors);
         
             return redirect()->back()
                 ->with('error', $combinedErrorMessage)
