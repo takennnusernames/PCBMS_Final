@@ -2,14 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use App\Models\Product;
+use App\Models\Employee;
 use App\Models\Supplier;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     //
+    public function dashboard_view()
+    {
+        $suppliers = Supplier::count();
+        $products = Product::count();
+        $employees = Employee::count();
+        $transactions = Transaction::count();
+
+        return view('admin_pages/index', ['suppliers' => $suppliers, 'products' => $products, 'employees' => $employees, 'transactions' => $transactions]);
+    }
+    
     public function suppliers_view()
     {
         return view('admin_pages/suppliers', ['suppliers' => Supplier::all()]);

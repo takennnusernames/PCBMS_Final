@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Log;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -9,6 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class SupplierController extends Controller
 {
+    protected $date;
+    protected $time;
+
+    public function __construct()
+    {
+        $this->date = Carbon::now()->toDateString();
+        $this->time = Carbon::now()->toTimeString();
+    }
     //
     public function add_supplier(Request $request){
         // dd($request);
@@ -52,6 +62,15 @@ class SupplierController extends Controller
         }
         
         Supplier::create($formFields);
+
+        $logFields = [
+            'user_id' => auth()->user()->id,
+            'activity' => 'Supplier "' . $request->companyName . '" added',
+            'log_date' => $this->date,
+            'log_time' => $this->time
+        ];
+
+        Log::create($logFields);
 
         return back()->with('message', 'Supplier Data Added');
     }
@@ -99,16 +118,34 @@ class SupplierController extends Controller
         
         $supplier->update($formFields);
 
+        $logFields = [
+            'user_id' => auth()->user()->id,
+            'activity' => 'Supplier "' . $request->companyName . '" updated',
+            'log_date' => $this->date,
+            'log_time' => $this->time
+        ];
+
+        Log::create($logFields);
+
         return back()->with('message', 'Supplier Data Updated');
     }
 
     public function delete_supplier($id){
         // dd($id);
         $supplier = Supplier::find($id);
+        $logFields = [
+            'user_id' => auth()->user()->id,
+            'activity' => 'Supplier "' . $supplier['Company Name'] . '" deleted',
+            'log_date' => $this->date,
+            'log_time' => $this->time
+        ];
+        
+        Log::create($logFields);
 
         if($supplier){
             $supplier->delete();
         }
+
 
         return back()->with('message', 'Supplier Data Deleted');
     }

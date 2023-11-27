@@ -69,7 +69,8 @@
                                                             </a>
                                                             <button type="button"
                                                                 class="btn btn-danger btn-sm mx-1 deleteButton"
-                                                                data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#deleteConfirmationModal"
                                                                 data-id="{{ $product['id'] }}">
                                                                 <i class="fas fa-trash"></i>
                                                                 Delete
@@ -117,7 +118,8 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="companyName">Supplier</label>
-                            <select name="supplier" class="form-control" id="companyName" placeholder="Supplier" required>
+                            <select name="supplier" class="form-control" id="companyName" placeholder="Supplier"
+                                required>
                                 <option value="">Select Supplier</option>
                             </select>
                         </div>
@@ -127,11 +129,13 @@
                         </div>
                         <div class="form-group">
                             <label for="acronym">Product Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Product Name" required>
+                            <input type="text" name="name" class="form-control" placeholder="Product Name"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="acronym">Product Description</label>
-                            <textarea type="text" name="description" class="form-control" placeholder="Product Description" rows="3" required></textarea>
+                            <textarea type="text" name="description" class="form-control" placeholder="Product Description" rows="3"
+                                required></textarea>
                         </div>
 
                         <div class="form-group">
@@ -169,32 +173,32 @@
 </div>
 
 <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this supplier?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" id="deleteForm" action="">
+                    @csrf
+                    @method('DELETE') <!-- This is needed to indicate a DELETE request -->
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                        Delete
                     </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this supplier?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form method="POST" id="deleteForm" action="">
-                        @csrf
-                        @method('DELETE') <!-- This is needed to indicate a DELETE request -->
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-trash"></i>
-                            Delete
-                        </button>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 
 <script>
@@ -223,6 +227,21 @@
         $('#modal-edit-supplier').on('click', '.close, .btn-close', function() {
             // Use Bootstrap's modal 'hide' method to close the modal
             $('#modal-edit-supplier').modal('hide');
+        });
+    });
+
+    $(document).ready(function() {
+        // Handle the click event for the Delete button
+        $('.deleteButton').click(function() {
+            var id = $(this).data('id'); // Assuming you have a data-id attribute on the button
+
+            // Set the form's action attribute based on the data-id value
+            $('#deleteForm').attr('action', 'delete_product/' + id);
+
+            // Show a confirmation dialog or perform other actions as needed
+
+            // Submit the form (optional)
+            // $('#deleteForm').submit();
         });
     });
 </script>
@@ -269,15 +288,31 @@
             });
         });
     </script>
+@elseif (session('email'))
+    <script>
+        $(document).ready(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('email') }}'
+            });
+        });
+    </script>
 @elseif (session('error'))
-<script>
-    $(document).ready(function() {
-      $(document).Toasts('create', {
-        class: 'bg-danger',
-        title: 'ERROR',
-        subtitle: 'Failed to add data',
-        body: '{!! session('error') !!}'
-      })
-    });
-</script>
+    <script>
+        $(document).ready(function() {
+            $(document).Toasts('create', {
+                class: 'bg-danger',
+                title: 'ERROR',
+                subtitle: 'Failed to add data',
+                body: '{!! session('error') !!}'
+            })
+        });
+    </script>
 @endif

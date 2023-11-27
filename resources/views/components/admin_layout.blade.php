@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="../../adminlte/img/vsu.png" type="image/x-icon">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PCBMS</title>
@@ -27,7 +28,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="/" class="brand-link">
       <img src="../../adminlte/img/AdminLTELogo.png" alt="PCBMS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">PCBMS</span>
     </a>
@@ -40,7 +41,7 @@
           <img src="../../adminlte/img/user.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Jon Doe</a>
+          <p class="d-block text-white">{{auth()->user()->name}} </p>
         </div>
       </div>
 
@@ -59,7 +60,6 @@
           </li>
           <li class="nav-item">
             <a href="/suppliers" class="nav-link {{ request()->is('suppliers*') ? 'active' : '' }}">
-              {{-- <i class="nav-icon fas fa-th"></i> --}}
               <i class="nav-icon fa fa-truck"></i>
               <p>
                 Suppliers
@@ -105,94 +105,31 @@
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
                 Sales
-                <i class="right fas fa-angle-right"></i>
               </p>
             </a>
-            {{-- <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../charts/uplot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
-                </a>
-              </li>
-            </ul> --}}
           </li>
           <li class="nav-item">
-            <a href="/logs" class="nav-link {{ request()->is('logs*') ? 'active' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('logs*') ? 'active' : '' }}">
               <i class="nav-icon fa fa-clock"></i>
               <p>
                 Logs
                 <i class="fas fa-angle-right right"></i>
               </p>
             </a>
-            {{-- <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../UI/general.html" class="nav-link">
+                <a href="/logs" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>General</p>
+                  <p>Activity Logs</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../UI/icons.html" class="nav-link">
+                <a href="/dtr" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Icons</p>
+                  <p>Daily Time Record</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="../UI/buttons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Buttons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/sliders.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Sliders</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/modals.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Modals & Alerts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/navbar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Navbar & Tabs</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/timeline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Timeline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../UI/ribbons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ribbons</p>
-                </a>
-              </li>
-            </ul> --}}
+            </ul>
           </li>
         </ul>
       </nav>
@@ -204,12 +141,12 @@
   <div class="content-wrapper">
     {{ $slot }}
   </div>
-  <footer class="main-footer">
+  {{-- <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.2.0
     </div>
     <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
+  </footer> --}}
 
   <!-- Control Sidebar -->
   {{-- <aside class="control-sidebar control-sidebar-dark">

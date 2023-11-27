@@ -35,13 +35,6 @@
                                 <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('../../adminlte/img/prod-1.jpg') }}"
                                     class="product-image" alt="Product Image">
                             </div>
-                            {{-- <div class="col-12 product-image-thumbs">
-                      <div class="product-image-thumb active"><img src="../../adminlte/img/prod-1.jpg" alt="Product Image"></div>
-                      <div class="product-image-thumb" ><img src="../../adminlte/img/prod-2.jpg" alt="Product Image"></div>
-                      <div class="product-image-thumb" ><img src="../../adminlte/img/prod-3.jpg" alt="Product Image"></div>
-                      <div class="product-image-thumb" ><img src="../../adminlte/img/prod-4.jpg" alt="Product Image"></div>
-                      <div class="product-image-thumb" ><img src="../../adminlte/img/prod-5.jpg" alt="Product Image"></div>
-                    </div> --}}
                         </div>
                         <div class="col-12 col-sm-6">
                             <h3 class="my-3 text-uppercase">{{ $product->name }}</h3>
@@ -110,8 +103,8 @@
                                         Edit
                                 </button></a>
                                 <button type="button"
-                                    class="btn btn-primary btn-sm mx-1 deleteButton"
-                                    data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                    class="btn btn-primary btn-sm mx-1 restockModalButton"
+                                    data-bs-toggle="modal" data-bs-target="#restockModal"
                                     data-id="{{ $product['id'] }}">
                                     <i class="fas fa-cart-plus"></i>
                                     Restock
@@ -134,3 +127,67 @@
     <!-- jQuery -->
 
 </x-admin_layout>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div class="modal fade" id="restockModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Request Stock</h5>
+                <button type="button" class="close" id="cancel" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/order" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="companyName">Supplier</label>
+                        <input class="form-control text-center" type="text" id="supplierName" disabled value="{{$product->supplier["Company Name"]}}">
+                        <input type="hidden" name="supplier" value="{{$product->supplier["Email Address"]}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="productName">Product</label>
+                        <input class="form-control text-center" type="text" id="productName" value="{{$product["name"]}}" disabled>
+                        <input type="hidden" name="product" value="{{$product["name"]}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Number of {{$product["unit"]}}/s</label>
+                        <input type="hidden" name="unit" value="{{$product["unit"]}}">
+                        <input id="qtyInput" type="number" class="form-control" required name="qty">
+                    </div>
+                </div>
+                <div class="modal-footer" id="submitFooter">
+                    <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- 
+<script>
+$(document).ready(function() {
+        // Handle modal toggling
+        $('.restockModalButton').click(function() {
+
+            // Get the id from the data-id attribute of the clicked button
+            var id = $(this).data('id');
+
+            // Fetch data from the server using AJAX
+            $.ajax({
+                url: '/fetch-product/' + id, // Your route URL
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    // Populate the modal with the fetched data
+                    $('#qty').text(response.data["unit"]);
+                    $('#supplierName').val(response.data.supplier["Company Name"]);
+                    $('#productName').val(response.data["name"]);
+                    // Add similar lines for other fields
+                },
+            });
+        });
+    });
+    
+</script> --}}

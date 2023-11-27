@@ -42,4 +42,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isCashier(){
+        return $this->role === 'cashier';
+    }
+
+    public function isAdmin(){
+        return $this->role === 'admin';
+    }
+
+    public function logs(){
+        return $this->hasMany(Logs::class, 'user_id');
+    }
+
+    public function records(){
+        return $this->hasMany(Logs::class, 'user_id');
+    }
 }

@@ -1,0 +1,17 @@
+for database and , run in terminal:
+,,,
+php artisan migrate
+
+php artisan db:seed
+,,,
+
+
+for accounts after database is seeded:
+
+admin account:
+email - admin@test.com
+password - Admin123
+
+cashier account:
+email - cashier@test.com
+password - Cashier123

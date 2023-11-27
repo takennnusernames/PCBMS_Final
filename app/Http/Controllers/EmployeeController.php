@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Log;
 use App\Models\User;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    protected $date;
+    protected $time;
+
+    public function __construct()
+    {
+        $this->date = Carbon::now()->toDateString();
+        $this->time = Carbon::now()->toTimeString();
+    }
+    
     public function fetchEmployee($id){
         $employee = Employee::find($id);
         return response()->json(['data' => $employee]);
@@ -29,7 +40,6 @@ class EmployeeController extends Controller
             'address' => $request->address,
             'email' => $request->email,
             'phone' => $request->phone,
-            'role' => $request->role
         ];
 
         Employee::create($formFields);
@@ -38,12 +48,22 @@ class EmployeeController extends Controller
         $user = [
             'name' => $name,
             'email' => $request->email,
+            'role' => $request->role,
             'password' => $password 
         ];
 
         User::create($user);
 
-        return back()->with('message', 'Employee Added');
+        $logFields = [
+            'user_id' => auth()->user()->id,
+            'activity' => 'Employee "' . $name . '" added',
+            'log_date' => $this->date,
+            'log_time' => $this->time
+        ];
+
+        Log::create($logFields);
+
+        return redirect('/employees')->with('message', 'Employee Added');
     }
 
     public function editEmployee(Request $request) {
@@ -68,15 +88,34 @@ class EmployeeController extends Controller
 
         $employee->update($formFields);
 
+        $logFields = [
+            'user_id' => auth()->user()->id,
+            'activity' => 'Employee "' . $name . '" updated',
+            'log_date' => $this->date,
+            'log_time' => $this->time
+        ];
+
+        Log::create($logFields);
+
         return back()->with('message', 'Employee Data Updated');
     }
 
     public function deleteEmployee($id){
         $employee = Employee::find($id);
 
+        
+        $logFields = [
+            'user_id' => auth()->user()->id,
+            'activity' => 'Employee "' . $employee->name . '" deleted',
+            'log_date' => $this->date,
+            'log_time' => $this->time
+        ];
+
         if($employee){
             $employee->delete();
         }
+
+        Log::create($logFields);
 
         return back()->with('message', 'Employee Data Deleted');
     }

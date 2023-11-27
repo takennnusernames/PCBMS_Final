@@ -1,5 +1,4 @@
 <title>POS</title>
-
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="../../adminlte/img/vsu.png" type="image/x-icon">
@@ -28,40 +27,40 @@
 
 <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-        <a href="/" class="navbar-brand">
-            <span class="brand-text font-weight-light">PCBMS Point of Sales</span>
+        <a href="/pos-cashier" class="navbar-brand">
+            <span class="brand-text font-weight-light">VSU Pasalubong Center</span>
         </a>
-
-        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="/" class="nav-link">Dashboard</a>
-                </li>
-            </ul>
-        </div>
 
         <!-- Right navbar links -->
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
             <li class="nav-item">
-                <form action="/logout" method="Post">
-                    @csrf
-                    <button class="btn btn-danger" type="submit">
-                        <i class="fas fa-sign-out-alt"></i>LOGOUT
-                    </button>
-                </form>
+              <form action="/logout" method="Post">
+                @csrf
+                <button class="btn btn-danger" type="submit">
+                  <i class="fas fa-sign-out-alt"></i>LOGOUT
+                </button>
+              </form>
             </li>
-        </ul>
+          </ul>
     </div>
 </nav>
 
 <body>
     <div class="container">
+        {{-- <div class="row">
+            <div class="col-5">
+                <table>
+                    <tr>
+                        <td>Cashier:</td>
+                        <td colspan="3" class="text-center"><strong>John Doe</strong></td>
+                        <td id="current-date" class="text-end"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-6">
+                Grand Total:
+            </div>
+        </div> --}}
         <div class="row gx-3">
             <div class="col-4" style="height: 500px; display: flex; flex-direction: column;">
                 <form action="">
@@ -71,7 +70,7 @@
                                 <tr>
                                     <td>Cashier:</td>
                                     <td colspan="3" class="text-center"><strong id="cashier">
-                                            {{ auth()->check() ? auth()->user()->name : '' }} </strong></td>
+                                        {{ auth()->check() ? auth()->user()->name : '' }} </strong></td>
                                     <td id="current-date" class="text-end"></td>
                                 </tr>
                                 <tr class="text-center">
@@ -114,8 +113,7 @@
                                     <form class="form-inline ml-0 ml-md-3">
                                         <div class="input-group input-group-sm">
                                             <input class="form-control form-control-navbar" type="search"
-                                                placeholder="Search" aria-label="Search" id="searchInput"
-                                                oninput="searchProduct()">
+                                                placeholder="Search" aria-label="Search">
                                             <div class="input-group-append">
                                                 <button class="btn btn-navbar" type="submit">
                                                     <i class="fas fa-search"></i>
@@ -125,12 +123,12 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="row" id="productContainer">
+                            <div class="row">
                                 @foreach ($products as $product)
-                                    <div
-                                        class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column product">
-                                        <button type="button" class="btn productButton" data-id="{{ $product->id }}">
-                                            <div class="card bg-light d-flex flex-column w-100 flex-shrink-0">
+                                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                                        <button type="button" class="btn productButton"
+                                            data-id="{{ $product->id }}">
+                                            <div class="card bg-light d-flex flex-fill">
                                                 <div class="card-header text-muted border-bottom-0 text-uppercase">
                                                     <div class="row">
                                                         <div class="col text-left">
@@ -236,7 +234,6 @@
 
 
 <script src="../../adminlte/plugins/jquery/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 {{-- Modal Script --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -398,15 +395,15 @@
         var payment = parseFloat($("#paymentInput").val());
 
         var change = (payment - amount).toFixed(2);
-
+        
         $('#modal-checkout').modal('hide');
-
+        
         $("#checkoutChange").text(change);
         $('#modal-checkout').on('hidden.bs.modal', function() {
-            setTimeout(function() {
-                $('#modal-final-checkout').modal('show');
-            }, 100); // Adjust the timeout value as needed
-        });
+                setTimeout(function() {
+                    $('#modal-final-checkout').modal('show');
+                }, 100); // Adjust the timeout value as needed
+            });
 
     }
 
@@ -487,29 +484,6 @@
                 console.error('Network error:', error);
             });
     }
-
-    function searchProduct() {
-        var searchInput = $('#searchInput').val().toLowerCase().trim();
-
-        if (searchInput === "") {
-            $('#productContainer .productButton').show();
-            return;
-        }
-
-        // Loop through each product card
-        $('#productContainer .productButton').each(function() {
-            var productName = $(this).find('.card-header .col:first-child').text().toLowerCase();
-            var productCode = $(this).find('.card-footer').text().toLowerCase();
-
-            // If the product name or code contains the search input, show it; otherwise, hide it
-            if (productName.includes(searchInput) || productCode.includes(searchInput)) {
-                $(this).show();
-                productContainer.prepend($(this).get(0).closest('.product'));
-            } else {
-                $(this).hide();
-            }
-        });
-    }
 </script>
 <script>
     var currentDate = new Date();
@@ -542,16 +516,16 @@
         });
     </script>
 @elseif (session('error'))
-    <script>
-        $(document).ready(function() {
-            $(document).Toasts('create', {
-                class: 'bg-danger',
-                title: 'ERROR',
-                subtitle: 'Failed to add data',
-                body: '{!! session('error') !!}'
-            })
-        });
-    </script>
+<script>
+    $(document).ready(function() {
+      $(document).Toasts('create', {
+        class: 'bg-danger',
+        title: 'ERROR',
+        subtitle: 'Failed to add data',
+        body: '{!! session('error') !!}'
+      })
+    });
+</script>
 @endif
 
 <script>
@@ -559,3 +533,4 @@
         return "Are you sure you want to leave?";
     };
 </script>
+

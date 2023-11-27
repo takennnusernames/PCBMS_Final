@@ -31,7 +31,7 @@
                                 <div class="col-md">
                                     <div class="form-floating">
                                         <input name="FirstName" type="text" class="form-control text-capitalize"
-                                            id="floatingInput" placeholder="name">
+                                            id="floatingInput" placeholder="name" autofocus>
                                         <label for="floatingInput" class="form-label">First Name</label>
                                         <span validation-for="FirstName" class="text-danger"></span>
                                     </div>
@@ -76,8 +76,7 @@
                                     aria-label="Floating label select example">
                                     <option selected>Select Employee Role</option>
                                     <option value="1">Admin</option>
-                                    <option value="2">Manager</option>
-                                    <option value="3">Cashier</option>
+                                    <option value="2">Cashier</option>
                                 </select>
                                 <label for="floatingSelect">Role</label>
                             </div>

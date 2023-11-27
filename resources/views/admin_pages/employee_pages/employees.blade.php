@@ -24,9 +24,7 @@
             <!-- Default box -->
             <div class="card card-solid">
                 <div class="card-body pb-0">
-
                     @unless (count($employees) == 0)
-
                         <div class="row">
                             @foreach ($employees as $employee)
                                 <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
